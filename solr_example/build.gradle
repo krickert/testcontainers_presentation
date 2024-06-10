@@ -1,0 +1,50 @@
+plugins {
+    id("com.github.johnrengelman.shadow") version "8.1.1"
+    id("io.micronaut.application") version "4.4.0"
+}
+
+version = "0.1"
+group = "com.krickert.search.test"
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    annotationProcessor("info.picocli:picocli-codegen")
+    annotationProcessor("io.micronaut.serde:micronaut-serde-processor")
+    implementation("info.picocli:picocli")
+    implementation("io.micronaut.picocli:micronaut-picocli")
+    implementation("io.micronaut.serde:micronaut-serde-jackson")
+    implementation("ai.djl.huggingface:tokenizers:0.28.0")
+    implementation("ai.djl.pytorch:pytorch-model-zoo:0.28.0")
+    // https://mvnrepository.com/artifact/com.google.guava/guava
+    implementation("com.google.guava:guava:33.2.1-jre")
+    runtimeOnly("ch.qos.logback:logback-classic")
+    testImplementation("org.testcontainers:solr")
+    testImplementation("org.testcontainers:junit-jupiter")
+    testImplementation("org.testcontainers:testcontainers")
+    testImplementation("org.apache.solr:solr-solrj:9.6.1")
+}
+
+
+
+application {
+    mainClass = "com.krickert.search.test.Solr_exampleCommand"
+}
+java {
+    sourceCompatibility = JavaVersion.toVersion("17")
+    targetCompatibility = JavaVersion.toVersion("17")
+}
+
+
+micronaut {
+    testRuntime("junit5")
+    processing {
+        incremental(true)
+        annotations("com.krickert.search.test.*")
+    }
+}
+
+
+
